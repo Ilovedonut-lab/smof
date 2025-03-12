@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Now Playing</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-width: 320px;
+            width: 100%;
+        }
+        
+        #status {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        img {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .playlist {
+            margin-top: 20px;
+        }
+    </style>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=TU-ID-DE-MEDICION"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'TU-ID-DE-MEDICION');
+    </script>
+    <!-- Fin de Google Analytics -->
+</head>
+<body>
+    <div class="container">
+        <div id="status">🔴</div>
+        <img id="cover" src="" alt="Album Cover">
+        <div id="song">Loading...</div>
+    </div>
+    
+    <div class="playlist">
+        <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/7j0OgxoHBeSU6dMeyyJ3F5?utm_source=generator" width="300" height="380" frameborder="0" allowfullscreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+    </div>
+    
+    <script>
+        const username = "Ilovedonut";
+        const apiKey = "9b7a663eb3f89b5926d8b45c97616491";
+        
+        async function getNowPlaying() {
+            const url = `https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=${username}&api_key=${apiKey}&format=json&limit=1`;
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                const track = data.recenttracks.track[0];
+                
+                if (track && track["@attr"] && track["@attr"].nowplaying === "true") {
+                    document.getElementById("status").innerText = "🟢";
+                    document.getElementById("song").innerText = `Silvana Ortiz is listening to ${track.name} by ${track.artist["#text"]} on Spotify`;
+                    document.getElementById("cover").src = track.image[2]["#text"] || "https://via.placeholder.com/100";
+                } else {
+                    document.getElementById("status").innerText = "🔴";
+                    document.getElementById("song").innerText = "Silvana Ortiz isn’t listening to music at the moment...";
+                    document.getElementById("cover").src = "https://via.placeholder.com/100";
+                }
+            } catch (error) {
+                console.error("Error fetching Last.fm data", error);
+            }
+        }
+        
+        getNowPlaying();
+        setInterval(getNowPlaying, 10000); 
+    </script>
+</body>
+</html>
