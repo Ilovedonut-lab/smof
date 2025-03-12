@@ -102,25 +102,5 @@
         getNowPlaying();
         setInterval(getNowPlaying, 10000); 
     </script>
-
-    <!-- Firebase Config -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-        import { getDatabase } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyDyLX1x_po1Fc590uVwWF6j2hvye8R4Oek",
-            authDomain: "nowplayingtracker.firebaseapp.com",
-            databaseURL: "https://nowplayingtracker-default-rtdb.firebaseio.com",
-            projectId: "nowplayingtracker",
-            storageBucket: "nowplayingtracker.firebasestorage.app",
-            messagingSenderId: "859808776787",
-            appId: "1:859808776787:web:630ad12463a19c48d7fca6"
-        };
-        
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-    </script>
-    <!-- Fin de Firebase Config -->
 </body>
 </html>
